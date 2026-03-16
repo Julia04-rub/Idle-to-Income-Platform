@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>I² Platform</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="navbar">
+
+<h2>I² Platform</h2>
+
+<div class="logout-icon" onclick="logout()">
+<i class="fa-solid fa-right-from-bracket"></i>
+</div>
+
+</div>
+
+<div class="container">
+
+<h2>Available Tasks</h2>
+
+<div id="tasks" class="task-container"></div>
+
+<h2>Your Earnings</h2>
+
+<div class="earnings-box">
+<h3>Total Income</h3>
+<p id="total">$0</p>
+</div>
+
+<div id="earnings"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+<script>
+
+window.onload = function(){
+
+loadTasks()
+loadEarnings()
+
+}
+
+</script>
+
+</body>
+</html>
