@@ -1,56 +1,182 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-<title>I² Platform</title>
+    <title>I² Dashboard</title>
 
-<link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            text-align: center;
+        }
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 70%;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
 
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .task {
+            background: #f1f1f1;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 8px;
+        }
+
+        .income {
+            background: #28a745;
+            color: white;
+        }
+
+        textarea {
+            width: 80%;
+            height: 70px;
+            margin-top: 10px;
+        }
+
+        #taskBox {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="navbar">
+<h1>I² Dashboard</h1>
 
-<h2>I² Platform</h2>
 
-<div class="logout-icon" onclick="logout()">
-<i class="fa-solid fa-right-from-bracket"></i>
+<div class="card">
+    <h2>Available Tasks</h2>
+    <div id="taskList"></div>
 </div>
 
+
+<div class="card" id="taskBox">
+    <h3 id="taskTitle"></h3>
+    <p id="taskInstructions"></p>
+
+    <textarea id="taskInput" placeholder="Enter your work here..."></textarea><br><br>
+
+    <button onclick="completeTask()">Submit Task</button>
 </div>
 
-<div class="container">
 
-<h2>Available Tasks</h2>
-
-<div id="tasks" class="task-container"></div>
-
-<h2>Your Earnings</h2>
-
-<div class="earnings-box">
-<h3>Total Income</h3>
-<p id="total">$0</p>
+<div class="card income">
+    <h2>Total Income</h2>
+    <h1 id="totalIncome">$0</h1>
 </div>
 
-<div id="earnings"></div>
 
+<div class="card">
+    <h2>Completed Tasks</h2>
+    <div id="history"></div>
 </div>
-
-<script src="script.js"></script>
 
 <script>
+   
+    let user = JSON.parse(localStorage.getItem("user")) || {
+        income: 0,
+        completedTasks: []
+    };
 
-window.onload = function(){
+    let currentTask = null;
 
-loadTasks()
-loadEarnings()
+    let tasks = [
+        { id: 1, title: "Survey", instructions: "Ask 3 people a question", reward: 4 },
+        { id: 2, title: "Data Entry", instructions: "Enter 5 names and numbers", reward: 5 },
+        { id: 3, title: "Writing", instructions: "Write 100 words", reward: 6 },
+        { id: 4, title: "Market Research", instructions: "List 3 businesses nearby", reward: 5 },
+        { id: 5, title: "Translation", instructions: "Translate a short paragraph", reward: 4 }
+    ];
 
-}
+    function saveUser() {
+        localStorage.setItem("user", JSON.stringify(user));
+    }
 
+    function loadDashboard() {
+        document.getElementById("totalIncome").innerText = "$" + user.income;
+
+        let taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
+
+        tasks.forEach(task => {
+            let isCompleted = user.completedTasks.find(t => t.id === task.id);
+
+            let div = document.createElement("div");
+            div.className = "task";
+
+            div.innerHTML = `
+                <b>${task.title}</b> - $${task.reward}<br>
+                ${task.instructions}<br>
+                <button onclick="acceptTask(${task.id})" ${isCompleted ? "disabled" : ""}>
+                    ${isCompleted ? "Completed" : "Accept Task"}
+                </button>
+            `;
+
+            taskList.appendChild(div);
+        });
+
+       
+        let history = document.getElementById("history");
+        history.innerHTML = "";
+
+        user.completedTasks.forEach(task => {
+            let div = document.createElement("div");
+            div.className = "task";
+            div.innerHTML = `
+                Task: ${task.title} <br>
+                Earned: $${task.reward}
+            `;
+            history.appendChild(div);
+        });
+    }
+
+    function acceptTask(id) {
+        currentTask = tasks.find(t => t.id === id);
+
+        document.getElementById("taskBox").style.display = "block";
+        document.getElementById("taskTitle").innerText = currentTask.title;
+        document.getElementById("taskInstructions").innerText = currentTask.instructions;
+    }
+
+    function completeTask() {
+        let input = document.getElementById("taskInput").value;
+
+        if (input.trim() === "") {
+            alert("Complete the task first!");
+            return;
+        }
+
+        user.income += currentTask.reward;
+        user.completedTasks.push(currentTask);
+
+        saveUser();
+
+        document.getElementById("taskBox").style.display = "none";
+        document.getElementById("taskInput").value = "";
+
+        currentTask = null;
+
+        loadDashboard();
+    }
+
+    loadDashboard();
 </script>
 
 </body>
