@@ -1,148 +1,128 @@
-async function register(){
 
-let username=document.getElementById("username").value
-let password=document.getElementById("password").value
+function register() {
+    let username = document.getElementById("regUsername").value;
+    let password = document.getElementById("regPassword").value;
 
-await fetch("/register",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({username,password})
-})
-
-alert("Account created")
-window.location="login.html"
-
+    fetch("/register", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ username, password })
+    })
+    .then(() => {
+        alert("Registered!");
+        window.location.href = "login.html";
+    });
 }
 
 
-async function login(){
+function login() {
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
 
-let username=document.getElementById("username").value
-let password=document.getElementById("password").value
-
-let res = await fetch("/login",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({username,password})
-})
-
-let data = await res.json()
-
-if(data.token){
-
-localStorage.setItem("token",data.token)
-
-window.location="dashboard.html"
-
-}else{
-
-alert("Login failed")
-
-}
-
+    fetch("/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ username, password })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.token) {
+            localStorage.setItem("token", data.token);
+            window.location.href = "dashboard.html";
+        } else {
+            alert("Invalid login");
+        }
+    });
 }
 
 
-function logout(){
+function loadTasks() {
+    fetch("/tasks", {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        let taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
 
-localStorage.removeItem("token")
-window.location="login.html"
-
+        data.forEach(task => {
+            taskList.innerHTML += `
+                <div class="task">
+                    <b>${task.title}</b> - $${task.reward}<br>
+                    ${task.description}<br><br>
+                    <button onclick="acceptTask(${task.id}, '${task.title}', ${task.reward})">
+                        Accept Task
+                    </button>
+                </div>
+            `;
+        });
+    });
 }
 
 
-async function loadTasks(){
+function acceptTask(id, title, reward) {
 
-let token = localStorage.getItem("token")
+    fetch(`/accept/${id}`, {
+        method: "POST",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    });
 
-let res = await fetch("/tasks",{
-headers:{Authorization:"Bearer "+token}
-})
+    let myTasks = document.getElementById("myTasks");
 
-let tasks = await res.json()
+    let taskDiv = document.createElement("div");
+    taskDiv.classList.add("task");
 
-let div = document.getElementById("tasks")
+    taskDiv.innerHTML = `
+        <p><b>${title} - $${reward}</b></p>
+        <textarea placeholder="Enter work..."></textarea>
+        <button onclick="submitTask(this, '${title}', ${reward})">Submit</button>
+    `;
 
-div.innerHTML=""
-
-tasks.forEach(t=>{
-
-div.innerHTML += `
-
-<div class="task-card">
-
-<h3>${t.title}</h3>
-
-<p>${t.description}</p>
-
-<p><b>Reward:</b> $${t.reward}</p>
-
-<button onclick="acceptTask(${t.id})">
-Accept Task
-</button>
-
-</div>
-
-`
-
-})
-
+    myTasks.appendChild(taskDiv);
 }
 
 
-async function acceptTask(id){
+function submitTask(button, title, reward) {
 
-let token = localStorage.getItem("token")
+    let completed = document.getElementById("completedTasks");
 
-await fetch("/accept/"+id,{
-method:"POST",
-headers:{Authorization:"Bearer "+token}
-})
+    let done = document.createElement("p");
+    done.textContent = title + " - $" + reward;
 
-alert("Task accepted!")
+    completed.appendChild(done);
 
-loadTasks()
-loadEarnings()
+    let income = document.getElementById("income");
+    let current = parseInt(income.textContent.replace("$", ""));
+    income.textContent = "$" + (current + reward);
 
+    button.parentElement.remove();
 }
 
 
-async function loadEarnings(){
+function loadEarnings() {
+    fetch("/earnings", {
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        let total = 0;
 
-let token = localStorage.getItem("token")
+        data.forEach(e => {
+            total += e.reward;
+        });
 
-let res = await fetch("/earnings",{
-headers:{Authorization:"Bearer "+token}
-})
+        document.getElementById("income").innerText = "$" + total;
+    });
+}
 
-let data = await res.json()
 
-let div = document.getElementById("earnings")
-
-let total = 0
-
-div.innerHTML=""
-
-data.forEach(e=>{
-
-total += e.reward
-
-div.innerHTML += `
-
-<div class="earning">
-
-Task Completed: ${e.title}
-
-<br>
-
-Income Earned: $${e.reward}
-
-</div>
-
-`
-
-})
-
-document.getElementById("total").innerText="$"+total
-
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
 }
