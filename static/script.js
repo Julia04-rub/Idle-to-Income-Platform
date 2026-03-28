@@ -1,17 +1,20 @@
 
 function register() {
-    let username = document.getElementById("regUsername").value;
-    let password = document.getElementById("regPassword").value;
-
-    fetch("/register", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ username, password })
+  fetch("/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username: document.getElementById("regUsername").value,
+      password: document.getElementById("regPassword").value
     })
-    .then(() => {
-        alert("Registered!");
-        window.location.href = "login.html";
-    });
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+    window.location.href = "/";
+  });
 }
 
 

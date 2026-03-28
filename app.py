@@ -82,6 +82,10 @@ def home():
 
 
 @app.route("/register", methods=["POST"])
+@app.route("/register")
+def register_page():
+    return app.send_static_file("register.html")
+
 def register():
 
     data = request.json
