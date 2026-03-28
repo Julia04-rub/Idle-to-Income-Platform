@@ -3,8 +3,9 @@ import sqlite3
 import uuid
 
 from flask_cors import CORS
-CORS(app)
+
 app = Flask(__name__, static_folder="static", static_url_path="")
+CORS(app)
 
 tokens = {}
 
