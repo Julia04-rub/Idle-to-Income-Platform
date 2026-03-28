@@ -77,7 +77,7 @@ def home():
     return app.send_static_file("index.html")
 
 @app.route("/")
-def home():
+def homepage():
     return send_from_directory("public","login.html")
 
 
