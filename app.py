@@ -72,7 +72,9 @@ def get_user():
         return tokens.get(token)
     except:
         return None
-
+@app.route("/")
+def home():
+    return app.send_static_file("index.html")
 
 @app.route("/")
 def home():
