@@ -1,7 +1,6 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify
 import sqlite3
 import uuid
-
 from flask_cors import CORS
 
 app = Flask(__name__, static_folder="static", static_url_path="")
@@ -9,7 +8,7 @@ CORS(app)
 
 tokens = {}
 
-
+# ---------------- DATABASE ----------------
 def init_db():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
@@ -59,12 +58,10 @@ def init_db():
     conn.commit()
     conn.close()
 
-
 init_db()
 
-
+# ---------------- AUTH ----------------
 def get_user():
-
     auth = request.headers.get("Authorization")
 
     if not auth:
@@ -75,19 +72,22 @@ def get_user():
         return tokens.get(token)
     except:
         return None
-    
+
+# ---------------- ROUTES ----------------
+
+# Login page
 @app.route("/")
 def home():
     return app.send_static_file("login.html")
 
-
-@app.route("/register", methods=["POST"])
-@app.route("/register")
+# Register page (GET)
+@app.route("/register", methods=["GET"])
 def register_page():
     return app.send_static_file("register.html")
 
+# Register user (POST)
+@app.route("/register", methods=["POST"])
 def register():
-
     data = request.json
 
     conn = sqlite3.connect("database.db")
@@ -95,18 +95,17 @@ def register():
 
     c.execute(
         "INSERT INTO users(username,password) VALUES(?,?)",
-        (data["username"],data["password"])
+        (data["username"], data["password"])
     )
 
     conn.commit()
     conn.close()
 
-    return {"message":"User created"}
+    return {"message": "User created"}
 
-
+# Login
 @app.route("/login", methods=["POST"])
 def login():
-
     data = request.json
 
     conn = sqlite3.connect("database.db")
@@ -114,7 +113,7 @@ def login():
 
     c.execute(
         "SELECT * FROM users WHERE username=? AND password=?",
-        (data["username"],data["password"])
+        (data["username"], data["password"])
     )
 
     user = c.fetchone()
@@ -122,48 +121,43 @@ def login():
     if user:
         token = str(uuid.uuid4())
         tokens[token] = user[0]
-        return {"token":token}
+        return {"token": token}
 
-    return {"error":"Invalid login"},401
+    return {"error": "Invalid login"}, 401
 
-
+# Tasks
 @app.route("/tasks")
 def tasks():
-
     user_id = get_user()
 
     if not user_id:
-        return {"error":"Unauthorized"},401
+        return {"error": "Unauthorized"}, 401
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
     c.execute("SELECT * FROM tasks")
-
     rows = c.fetchall()
 
-    data=[]
-
+    data = []
     for r in rows:
         data.append({
-            "id":r[0],
-            "title":r[1],
-            "description":r[2],
-            "reward":r[3]
+            "id": r[0],
+            "title": r[1],
+            "description": r[2],
+            "reward": r[3]
         })
 
     conn.close()
-
     return jsonify(data)
 
-
+# Accept task
 @app.route("/accept/<int:task_id>", methods=["POST"])
 def accept(task_id):
-
     user_id = get_user()
 
     if not user_id:
-        return {"error":"Unauthorized"},401
+        return {"error": "Unauthorized"}, 401
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
@@ -172,28 +166,27 @@ def accept(task_id):
     reward = c.fetchone()
 
     if not reward:
-        return {"error":"Task not found"},404
+        return {"error": "Task not found"}, 404
 
     reward = reward[0]
 
     c.execute(
         "INSERT INTO earnings(user_id,task_id,reward) VALUES(?,?,?)",
-        (user_id,task_id,reward)
+        (user_id, task_id, reward)
     )
 
     conn.commit()
     conn.close()
 
-    return {"message":"Task accepted"}
+    return {"message": "Task accepted"}
 
-
+# Earnings
 @app.route("/earnings")
 def earnings():
-
     user_id = get_user()
 
     if not user_id:
-        return {"error":"Unauthorized"},401
+        return {"error": "Unauthorized"}, 401
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
@@ -203,22 +196,20 @@ def earnings():
         FROM earnings
         JOIN tasks ON earnings.task_id = tasks.id
         WHERE earnings.user_id=?
-    """,(user_id,))
+    """, (user_id,))
 
     rows = c.fetchall()
 
-    data=[]
-
+    data = []
     for r in rows:
         data.append({
-            "title":r[0],
-            "reward":r[1]
+            "title": r[0],
+            "reward": r[1]
         })
 
     conn.close()
-
     return jsonify(data)
 
-
+# Run app
 if __name__ == "__main__":
-     app.run()
+    app.run()
