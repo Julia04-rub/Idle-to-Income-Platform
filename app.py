@@ -8,7 +8,7 @@ CORS(app)
 
 tokens = {}
 
-# ---------------- DATABASE ----------------
+
 def init_db():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
@@ -60,7 +60,6 @@ def init_db():
 
 init_db()
 
-# ---------------- AUTH ----------------
 def get_user():
     auth = request.headers.get("Authorization")
 
@@ -73,19 +72,18 @@ def get_user():
     except:
         return None
 
-# ---------------- ROUTES ----------------
 
-# Login page
+
 @app.route("/")
 def home():
     return app.send_static_file("login.html")
 
-# Register page (GET)
+
 @app.route("/register", methods=["GET"])
 def register_page():
     return app.send_static_file("register.html")
 
-# Register user (POST)
+
 @app.route("/register", methods=["POST"])
 def register():
     data = request.json
@@ -103,7 +101,7 @@ def register():
 
     return {"message": "User created"}
 
-# Login
+
 @app.route("/login", methods=["POST"])
 def login():
     data = request.json
@@ -125,7 +123,7 @@ def login():
 
     return {"error": "Invalid login"}, 401
 
-# Tasks
+
 @app.route("/tasks")
 def tasks():
     user_id = get_user()
@@ -151,7 +149,7 @@ def tasks():
     conn.close()
     return jsonify(data)
 
-# Accept task
+
 @app.route("/accept/<int:task_id>", methods=["POST"])
 def accept(task_id):
     user_id = get_user()
@@ -180,7 +178,7 @@ def accept(task_id):
 
     return {"message": "Task accepted"}
 
-# Earnings
+
 @app.route("/earnings")
 def earnings():
     user_id = get_user()
@@ -210,6 +208,6 @@ def earnings():
     conn.close()
     return jsonify(data)
 
-# Run app
+
 if __name__ == "__main__":
     app.run()
