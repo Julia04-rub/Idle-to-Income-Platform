@@ -91,15 +91,15 @@ Follow these steps carefully:
 git clone https://github.com/your-username/Idle-to-Income-Platform.git
 cd Idle-to-Income-Platform
 
-### 2.Install dependencies
+### 2. Install dependencies
 
 pip install -r requirements.txt
 
-### 3.Run the application
+### 3. Run the application
 
 python app.py
 
-### 4.Open in browser
+### 4. Open in browser
 
 http://127.0.0.1:5000
 
@@ -131,6 +131,16 @@ Steps used:
 pip install -r requirements.txt
 -set start command:
 gunicorn app:app
+
+### Challenges
+-static file error structure
+-deployment configuration on render
+
+### Improvements
+-Add real task verification system
+-Add admin dashboard
+-Improve UI/UX design
+-Add database security
 
 ### Conclusion
 
