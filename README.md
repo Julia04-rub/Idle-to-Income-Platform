@@ -130,18 +130,21 @@ Steps used:
 -Set build command:
 pip install -r requirements.txt
 -set start command:
-gunicorn app:app
+gunicorn app: app
 
+---
 ### Challenges
 -static file error structure
 -deployment configuration on render
 
+---
 ### Improvements
 -Add real task verification system
 -Add admin dashboard
 -Improve UI/UX design
 -Add database security
 
+---
 ### Conclusion
 
 The I² platform demonstrates how simple digital systems can help reduce unemployment by connecting users to income-generating opportunities. It provides a foundation for scalable solutions targeting youth empowerment.
