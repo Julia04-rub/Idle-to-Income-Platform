@@ -78,7 +78,7 @@ GitHub Link:
 
 ##  SRS Document
 
-SRS Link:  
+SRS Link:  https://docs.google.com/document/d/1ioI5Y27EMfiSqz3P-VmzRlr2zZNbG-4kU4xUDcdLAKM/edit?tab=t.0#heading=h.gjdgxs
 
 ---
 
