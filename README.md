@@ -66,19 +66,19 @@ Video Demo Link:
 
 ##  Live Deployment
 
-Live App URL:  
+Live App URL: 
 
 ---
 
 ##  GitHub Repository
 
-GitHub Link:  
+GitHub Link: https://github.com/Julia04-rub/Idle-to-Income-Platform
 
 ---
 
 ##  SRS Document
 
-SRS Link:  https://docs.google.com/document/d/1ioI5Y27EMfiSqz3P-VmzRlr2zZNbG-4kU4xUDcdLAKM/edit?tab=t.0#heading=h.gjdgxs
+SRS Link: https://docs.google.com/document/d/1ioI5Y27EMfiSqz3P-VmzRlr2zZNbG-4kU4xUDcdLAKM/edit?tab=t.0#heading=h.gjdgxs
 
 ---
 
