@@ -2,56 +2,41 @@
 
 ## Project Description
 
-The Idle to Income Platform is a web-based system designed to help unemployed or underutilized youth transform their idle time into income-generating opportunities.
+The Idle to Income Platform is a web-based application that aims to assist unemployed and underutilized youth across the globe, particularly in Africa, to turn their idle time into income-generating opportunities.
 
-The system allows users to:
-- Register and log in
-- View available tasks
-- Accept and complete tasks
-- Track their earnings
+### The features of the application include:
+- User registration
+- User login authentication
+- Viewing of tasks
+- Acceptance of tasks
+- Submission of tasks
+- Tracking of earnings
+- Dashboard interface
 
----
+## Problem Statement
 
-##  Problem Statement
-
-Youth unemployment is a major challenge, especially in Africa. Many young people have skills but lack access to opportunities to earn income.
-
----
+Youth unemployment is a challenge in Africa. The youth have the required skills but lack opportunities for income generation. 
 
 ## Why is it a Problem?
 
-- High unemployment rates
-- Lack of access to job opportunities
-- Underutilized skills
-- Financial instability among youth
-
----
+- Unemployment rates are high.
+- Lack of access to income-generating opportunities.
+- Underutilization of youth skills.
+- Financial insecurity among the youth.
 
 ## Proposed Solution
 
-The I² platform connects users to simple digital tasks that:
-- Require minimal resources
-- Can be done remotely
-- Provide small but consistent income
-
-This helps users:
-- Gain experience
-- Build discipline
-- Earn money from available opportunities
-
----
+The I² platform provides users with access to simple tasks that can be completed online. The tasks require minimal resources and can be completed remotely. The tasks will give users a chance to earn income from the opportunities provided. 
 
 ## System Features (Based on SRS)
 
-✔ User Registration  
-✔ User Login Authentication  
-✔ Task Viewing  
-✔ Task Acceptance  
-✔ Task Submission  
-✔ Earnings Tracking  
-✔ Dashboard Interface  
-
----
+- User Registration  
+- User Login Authentication  
+- Viewing of tasks  
+- Acceptance of tasks  
+- Submission of tasks  
+- Earnings tracking  
+- Dashboard interface  
 
 ## System Actors
 
@@ -102,7 +87,7 @@ SRS Link:
 Follow these steps carefully:
 
 ### 1. Clone the repository
-```bash
+
 git clone https://github.com/your-username/Idle-to-Income-Platform.git
 cd Idle-to-Income-Platform
 
@@ -139,13 +124,15 @@ Idle-to-Income-Platform/
 
 Steps used:
 
-Pushed code to GitHub
-Connected repository to Render
-Set build command:
+-Pushed code to GitHub
+-Connected repository to Render
+-Set build command:
 pip install -r requirements.txt
-set start command:
+-set start command:
 gunicorn app:app
 
 ### Conclusion
 
 The I² platform demonstrates how simple digital systems can help reduce unemployment by connecting users to income-generating opportunities. It provides a foundation for scalable solutions targeting youth empowerment.
+
+---
