@@ -81,7 +81,7 @@ def home():
 
 @app.route("/register", methods=["GET"])
 def register_page():
-    return app.send_static_file("register.html")
+    return app.send_static_file("Register.html")
 
 
 @app.route("/register", methods=["POST"])
