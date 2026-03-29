@@ -117,8 +117,9 @@ Idle-to-Income-Platform/
     ├── dashboard.html
     ├── script.js
     └── style.css
-
-    ### Deployment
+    
+---
+### Deployment
 
     The project is deployed using Render.
 
