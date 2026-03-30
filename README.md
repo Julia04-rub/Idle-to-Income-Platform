@@ -60,7 +60,7 @@ The I² platform provides users with access to simple tasks that can be complete
 - Backend: Python (Flask)
 - Database: SQLite
 - Deployment: Render
-- 
+  
 ##  How to Run the Project Locally
 
 Follow these steps carefully:
