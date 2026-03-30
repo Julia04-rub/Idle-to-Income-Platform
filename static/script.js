@@ -31,7 +31,7 @@ function login() {
     .then(data => {
         if (data.token) {
             localStorage.setItem("token", data.token);
-            window.location.href = "/dashboard";
+            window.location.href = "/dashboard";  
         } else {
             alert("Invalid login");
         }
@@ -129,3 +129,7 @@ function logout() {
     localStorage.removeItem("token");
     window.location.href = "login.html";
 }
+window.onload = function() {
+    loadTasks();
+    loadEarnings();
+};
