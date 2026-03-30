@@ -46,7 +46,6 @@ The I² platform provides users with access to simple tasks that can be complete
   - Tracks earnings  
 
 
-
 ## System Processes
 
 1. User registers  
@@ -54,27 +53,14 @@ The I² platform provides users with access to simple tasks that can be complete
 3. User views tasks  
 4. User accepts a task  
 5. User submits task work  
-6. System updates earnings  
-
-
-
-##  Demo
-
-Video Demo Link:  
-
-
-##  Live Deployment
-
-Live App URL: 
-
-##  GitHub Repository
-
-GitHub Link: https://github.com/Julia04-rub/Idle-to-Income-Platform
-
-##  SRS Document
-
-SRS Link: https://docs.google.com/document/d/1ioI5Y27EMfiSqz3P-VmzRlr2zZNbG-4kU4xUDcdLAKM/edit?tab=t.0#heading=h.gjdgxs
-
+6. System updates earnings
+   
+### Technologies Used
+- Frontend: HTML, CSS, JavaScript
+- Backend: Python (Flask)
+- Database: SQLite
+- Deployment: Render
+- 
 ##  How to Run the Project Locally
 
 Follow these steps carefully:
@@ -95,23 +81,7 @@ python app.py
 ### 4. Open in browser
 
 http://127.0.0.1:5000
-
-### project structure
-
-Idle-to-Income-Platform/
-│
-├── app.py
-├── database.db
-├── requirements.txt
-│
-└── static/
-    ├── login.html
-    ├── register.html
-    ├── dashboard.html
-    ├── script.js
-    └── style.css
     
-
 ### Deployment
 
 The project is deployed using Render.
