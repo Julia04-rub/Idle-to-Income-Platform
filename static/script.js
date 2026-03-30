@@ -55,7 +55,7 @@ function loadTasks() {
                 <div class="task">
                     <b>${task.title}</b> - $${task.reward}<br>
                     ${task.description}<br><br>
-                    <button onclick="acceptTask(${task.id}, '${task.title}', ${task.reward})">
+                    <button onclick="acceptTask(${task.id}, \`${task.title}\`, ${task.reward})">
                         Accept Task
                     </button>
                 </div>
