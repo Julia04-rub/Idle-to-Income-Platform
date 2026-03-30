@@ -72,22 +72,29 @@ function acceptTask(id, title, reward) {
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token")
         }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);  // ❗ shows if unauthorized
+            return;
+        }
+
+        
+        let myTasks = document.getElementById("myTasks");
+
+        let taskDiv = document.createElement("div");
+        taskDiv.classList.add("task");
+
+        taskDiv.innerHTML = `
+            <p><b>${title} - $${reward}</b></p>
+            <textarea placeholder="Enter work..."></textarea>
+            <button onclick="submitTask(this, '${title}', ${reward})">Submit</button>
+        `;
+
+        myTasks.appendChild(taskDiv);
     });
-
-    let myTasks = document.getElementById("myTasks");
-
-    let taskDiv = document.createElement("div");
-    taskDiv.classList.add("task");
-
-    taskDiv.innerHTML = `
-        <p><b>${title} - $${reward}</b></p>
-        <textarea placeholder="Enter work..."></textarea>
-        <button onclick="submitTask(this, '${title}', ${reward})">Submit</button>
-    `;
-
-    myTasks.appendChild(taskDiv);
 }
-
 
 function submitTask(button, title, reward) {
 
