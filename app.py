@@ -125,7 +125,7 @@ def login():
 
 @app.route("/dashboard")
 def dashboard():
-    return app.send_static_file("dashboard.html")
+    return app.send_static_file("Dashboard.html")
 @app.route("/tasks")
 def tasks():
     user_id = get_user()
